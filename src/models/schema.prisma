@@ -9,3 +9,32 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Cliente{
+  idCliente Int @id @default(autoincrement())
+  nome String
+  email String @unique
+  compra Compra[]
+}
+
+model Produto{
+  idProduto Int @id @default(autoincrement())
+  nome String
+  quantidadeEstoque Int
+  preco Int
+  tipo String
+  fornecedor String
+  compra Compra[]
+
+}
+
+model Compra{
+  cliente Cliente @relation(fields: [clienteId], references: [idCliente])
+  clienteId Int
+  produto Produto @relation(fields: [produtoId], references: [idProduto])
+  produtoId Int
+  data DateTime
+  valor Float
+  idCompra Int @default(autoincrement())
+  @@id([clienteId,produtoId,idCompra,data,valor])
+}
