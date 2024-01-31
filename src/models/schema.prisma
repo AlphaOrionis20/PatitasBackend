@@ -14,14 +14,18 @@ model Cliente{
   idCliente Int @id @default(autoincrement())
   nome String
   email String @unique
+  telefone String
+  cpf String
+  endereco String
   compra Compra[]
+  @@map("user")
 }
 
 model Produto{
   idProduto Int @id @default(autoincrement())
   nome String
   quantidadeEstoque Int
-  preco Int
+  preco Decimal
   tipo String
   fornecedor String
   compra Compra[]
@@ -33,8 +37,8 @@ model Compra{
   clienteId Int
   produto Produto @relation(fields: [produtoId], references: [idProduto])
   produtoId Int
-  data DateTime
-  valor Float
+  data DateTime @default(now())
+  valor Decimal
   idCompra Int @default(autoincrement())
   @@id([clienteId,produtoId,idCompra,data,valor])
 }
