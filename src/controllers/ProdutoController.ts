@@ -22,7 +22,7 @@ class produtoController{
         }
     }
 
-    async readUnique(request: Request, response: Response){
+    async index(request: Request, response: Response){
         try {
             const { id } = request.params;
             const produto = await prisma.produto.findUnique({
@@ -37,7 +37,7 @@ class produtoController{
         }
     }
     
-    async readMany(request: Request, response: Response){
+    async show(request: Request, response: Response){
         try {
             const produtos = await prisma.produto.findMany()
                 response.status(200).json(produtos)
@@ -50,9 +50,9 @@ class produtoController{
     async update(request: Request, response: Response){
         try {
             const { id } = request.params;
-            const { nome }= request.body;
+            const { nome,tipo,fornecedor,quantidadeEstoque,preco }= request.body;
             const produto = await prisma.produto.update({
-                data: nome,
+                data: request.body,
                 where: {
                     idProduto: Number(id)
                 }
@@ -66,10 +66,10 @@ class produtoController{
 
     async destroy(request: Request, response: Response){
         try {
-            const { idProduto } = request.params;
+            const { id } = request.params;
             const produto = await prisma.produto.delete({
                 where: {
-                    idProduto: Number(idProduto)
+                    idProduto: Number(id)
                 }
             })
             return response.status(201).json(produto)

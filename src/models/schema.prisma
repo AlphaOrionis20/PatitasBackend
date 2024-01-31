@@ -29,7 +29,7 @@ model Produto{
   tipo String
   fornecedor String
   compra Compra[]
-
+  @@map("produto")
 }
 
 model Compra{
@@ -37,8 +37,8 @@ model Compra{
   clienteId Int
   produto Produto @relation(fields: [produtoId], references: [idProduto])
   produtoId Int
-  data DateTime @default(now())
-  valor Decimal
-  idCompra Int @default(autoincrement())
-  @@id([clienteId,produtoId,idCompra,data,valor])
+  dataCompra DateTime @default(now())
+  valorTotal Decimal
+  idCompra Int @id @default(autoincrement())
+  @@map("compra")
 }
